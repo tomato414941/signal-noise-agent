@@ -6,6 +6,7 @@ SESSIONS_LOG="$LOGDIR/sessions.log"
 MARKER_FILE="$WORKSPACE/.session_complete"
 
 source "$SCRIPT_DIR/config.sh"
+source ~/.secrets/openai 2>/dev/null || true
 
 mkdir -p "$WORKSPACE/memory/archive" "$WORKSPACE/human" "$WORKSPACE/snapshots"
 cd "$WORKSPACE"
