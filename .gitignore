@@ -1,0 +1,4 @@
+workspace/
+logs/
+*.log
+*.log.err
