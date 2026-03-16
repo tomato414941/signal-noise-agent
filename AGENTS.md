@@ -1,19 +1,20 @@
-# signal-noise-gardener
+# signal-noise-agent
 
-Autonomous maintenance agent for the signal-noise data collection service.
+Autonomous full-stack operator for the signal-noise data collection service.
 
-## Overview
+## Scope
 
-- Runs on the signal-noise VPS (co-located with the service)
-- Uses Codex CLI as the AI engine
-- 4-hour session interval, 30-minute timeout per session
-- One task per session (atomic commits)
+- Collector health: fix failures, manage suppressions, expand coverage
+- Deployment: auto-deploy verified changes, rollback on regression
+- Server monitoring: disk, memory, CPU, systemd service status
+- Database: WAL checkpoints, backups, integrity checks
+- Log management: journal cleanup
 
 ## Architecture
 
-Shell loop pattern: `run.sh` → `session.sh` → `codex exec AGENT_PROMPT.md`
+Shell loop: `run.sh` → `session.sh` → `codex exec AGENT_PROMPT.md`
 
-Agent pushes to signal-noise repo on GitHub. Deployment is separate (human or automation).
+Runs co-located on signal-noise VPS (77.42.85.62). 4-hour interval, 30-minute timeout, one task per session.
 
 ## Files
 
