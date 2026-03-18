@@ -1,0 +1,15 @@
+[Unit]
+Description=signal-noise autonomous operator
+After=network.target signal-noise.service signal-noise-scheduler.service
+
+[Service]
+Type=simple
+User=dev
+WorkingDirectory=/home/dev/projects/signal-noise-agent
+ExecStart=/bin/bash /home/dev/projects/signal-noise-agent/run.sh
+Restart=always
+RestartSec=20
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

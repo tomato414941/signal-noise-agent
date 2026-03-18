@@ -11,6 +11,11 @@ source ~/.secrets/openai 2>/dev/null || true
 mkdir -p "$WORKSPACE/memory/archive" "$WORKSPACE/human" "$WORKSPACE/snapshots"
 cd "$WORKSPACE"
 
+# Seed a dedicated working copy on first run.
+if [ ! -d "$WORKSPACE/signal-noise/.git" ]; then
+  git clone /home/dev/projects/signal-noise "$WORKSPACE/signal-noise" >/dev/null 2>&1 || true
+fi
+
 # Pre-session: capture health snapshot
 SNAPSHOT="$WORKSPACE/snapshots/health-$(date +%Y%m%d-%H%M%S).json"
 curl -s "http://127.0.0.1:8000/health/signals" > "$SNAPSHOT" 2>/dev/null || true

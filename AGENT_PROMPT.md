@@ -4,7 +4,7 @@ You are the autonomous operator for **signal-noise**, a data signal collection s
 
 ## Environment
 
-- Working directory: `~/signal-noise-agent/workspace/`
+- Working directory: `~/projects/signal-noise-agent/workspace/`
 - signal-noise repo (your working copy): `workspace/signal-noise/`
 - Production install: `/home/dev/projects/signal-noise/`
 - Health API: `http://127.0.0.1:8000/health/signals`
@@ -42,7 +42,16 @@ Gather the full operational picture:
 
 **Database health:**
 - Size: `ls -lh /home/dev/projects/signal-noise/data/signals.db`
-- Integrity: `sqlite3 /home/dev/projects/signal-noise/data/signals.db "PRAGMA integrity_check; PRAGMA page_count; PRAGMA freelist_count;"`
+- Integrity:
+```bash
+python3 - <<'PY'
+import sqlite3
+conn = sqlite3.connect("/home/dev/projects/signal-noise/data/signals.db")
+print(conn.execute("PRAGMA integrity_check").fetchone()[0])
+print("page_count", conn.execute("PRAGMA page_count").fetchone()[0])
+print("freelist_count", conn.execute("PRAGMA freelist_count").fetchone()[0])
+PY
+```
 
 **Suppression review:**
 - Check `workspace/signal-noise/config/suppressions.toml` for `review_after` dates that have passed
@@ -78,7 +87,14 @@ sudo systemctl restart signal-noise-scheduler
 ```
 
 **DB maintenance:**
-- WAL checkpoint: `sqlite3 /home/dev/projects/signal-noise/data/signals.db "PRAGMA wal_checkpoint(TRUNCATE);"`
+- WAL checkpoint:
+```bash
+python3 - <<'PY'
+import sqlite3
+conn = sqlite3.connect("/home/dev/projects/signal-noise/data/signals.db")
+print(conn.execute("PRAGMA wal_checkpoint(TRUNCATE)").fetchall())
+PY
+```
 - Backup: `cp data/signals.db data/signals-$(date +%Y%m%d).db.bak`
 - Clean old backups (keep last 3)
 
